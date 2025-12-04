@@ -33,6 +33,7 @@ def score_endpoint(data: SMSInput):
     classified = classify_transactions(transactions)
     score, metrics = calculate_score(classified)
     advice = build_advice(metrics) 
+    
 
     return {
         "score": score,
