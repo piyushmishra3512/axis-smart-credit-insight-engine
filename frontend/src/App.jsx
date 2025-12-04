@@ -273,6 +273,14 @@ export default function App() {
     }
   }, [scoreData?.advice]);
 
+  // Reset score whenever input text changes so old scores don't stick to new data
+  useEffect(() => {
+    if (scoreData) {
+      setScoreData(null);
+      setAnimatedScore(0);
+    }
+  }, [smsText]);
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -328,6 +336,9 @@ export default function App() {
   };
 
   const handleParse = () => {
+    // When only parsing, clear any existing score so it's not shown for new data
+    setScoreData(null);
+    setAnimatedScore(0);
     callApi("parse", (data) => {
       setTransactions(Array.isArray(data.transactions) ? data.transactions : []);
     });

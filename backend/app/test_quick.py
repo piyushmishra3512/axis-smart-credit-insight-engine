@@ -1,7 +1,7 @@
 # backend/app/test_quick.py
-from parser import parse_sms
-from classifier import classify_transactions
-from scoring import calculate_score
+from .parser import parse_sms
+from .classifier import classify_transactions
+from .scoring import calculate_score
 
 SAMPLE = """
 SBIN: Rs.500.00 debited on 21/11/2025 at ATM. Your balance is Rs.1500.00
