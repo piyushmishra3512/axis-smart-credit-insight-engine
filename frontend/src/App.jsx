@@ -407,11 +407,22 @@ export default function App() {
     return 0;
   });
 
+  // Category name mapping
+  const mapCategoryName = (name) => {
+    const mapping = {
+      "shopping": "withdraw",
+      "income": "deposit"
+    };
+    return mapping[name?.toLowerCase()] || name;
+  };
+
   // Charts data
   const categorySummary = transactions.reduce((acc, t) => {
-    const cat = (t && (t.category || t.type)) || "other";
+    let cat = (t && (t.category || t.type)) || "other";
     const amt = Number(t && t.amount) || 0;
-    acc[cat] = (acc[cat] || 0) + amt;
+    // Normalize category name for grouping (use mapped name as key)
+    const normalizedCat = mapCategoryName(cat);
+    acc[normalizedCat] = (acc[normalizedCat] || 0) + amt;
     return acc;
   }, {});
   const pieData = Object.entries(categorySummary).map(([name, value]) => ({
@@ -484,12 +495,14 @@ export default function App() {
                     💳
                   </div>
                 ) : (
-                  <img 
-                    src="/logo.png" 
-                    alt="Kredita Logo" 
-                    className="w-full h-full object-contain drop-shadow-2xl"
-                    onError={() => setLogoError(true)}
-                  />
+                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/50 p-2">
+                    <img 
+                      src="/logo-removebg-preview.png" 
+                      alt="Kredita Logo" 
+                      className="w-full h-full object-contain drop-shadow-2xl"
+                      onError={() => setLogoError(true)}
+                    />
+                  </div>
                 )}
               </div>
               <div>
